@@ -1,11 +1,8 @@
-throw new Error("TEST");
-
-
 const supabaseUrl =
 "https://ewikczkhfokqjordmjvz.supabase.co";
 
 const supabaseKey =
-"YOUR_KEY_HERE";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3aWtjemtoZm9rcWpvcmRtanZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTY1ODgsImV4cCI6MjA5NjA3MjU4OH0.Z3TllaO0uQj0h3ZHRpx_Bm2dkZjaT6Bj3lwMRo4MKQ8";
 
 const db = window.supabase.createClient(
     supabaseUrl,
