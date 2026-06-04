@@ -1,3 +1,8 @@
+
+textbox.addEventListener("input", () => {
+    submitBtn.disabled = textbox.value.trim() === "";
+});
+
 console.log("NEW VERSION LOADED");
 
 console.log(window.supabase);
@@ -70,12 +75,7 @@ localStorage.setItem(
 
 const message =
     document.querySelector(".textbox").value;
-    const textbox = document.querySelector(".textbox");
-const submitBtn = document.querySelector(".send");
 
-textbox.addEventListener("input", () => {
-    submitBtn.disabled = textbox.value.trim() === "";
-});
 if (message.trim() === "") {
     alert("Please enter a message");
     return;
