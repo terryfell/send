@@ -1,30 +1,27 @@
 console.log("NEW VERSION LOADED");
 
-console.log(window.supabase);
-
 const supabaseUrl =
 "https://ewikczkhfokqjordmjvz.supabase.co";
 
 const supabaseKey =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3aWtjemtoZm9rcWpvcmRtanZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTY1ODgsImV4cCI6MjA5NjA3MjU4OH0.Z3TllaO0uQj0h3ZHRpx_Bm2dkZjaT6Bj3lwMRo4MKQ8";
+"YOUR_KEY_HERE";
 
 const db = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
 
+const submitBtn = document.querySelector(".send");
+const textbox = document.querySelector(".textbox");
 
-console.log("DB:", db);
-console.log("FROM:", db.from);
+// disable button if textbox empty
+submitBtn.disabled = true;
 
+textbox.addEventListener("input", () => {
+    submitBtn.disabled = textbox.value.trim() === "";
+});
 
-//var
-
-
-var submitBtn = document.querySelector(".send");
-
-console.log("saved:", localStorage.getItem("lastSubmission"));
-
+// cooldown
 const lastSubmission =
     localStorage.getItem("lastSubmission");
 
@@ -37,63 +34,44 @@ if (lastSubmission) {
 
         submitBtn.disabled = true;
 
-        setTimeout(function() {
-
+        setTimeout(() => {
             submitBtn.disabled = false;
-
         }, 120000 - elapsedTime);
 
     }
-
 }
-
-
-
-
-//event
-
 
 submitBtn.addEventListener("click", async function() {
 
-        submitBtn.disabled = true;
+    const message = textbox.value;
 
-        setTimeout(function() {
+    if (message.trim() === "") {
+        alert("Please enter a message");
+        return;
+    }
 
-    submitBtn.disabled = false;
+    submitBtn.disabled = true;
 
-}, 120000);
+    localStorage.setItem(
+        "lastSubmission",
+        Date.now()
+    );
 
-localStorage.setItem(
-    "lastSubmission",
-    Date.now()
-);
+    setTimeout(() => {
+        submitBtn.disabled = false;
+    }, 120000);
 
-const message =
-    document.querySelector(".textbox").value;
-    const textbox = document.querySelector(".textbox");
-const submitBtn = document.querySelector(".send");
+    const { data, error } =
+    await db
+        .from("messages")
+        .insert([
+            {
+                messages: message
+            }
+        ]);
 
-textbox.addEventListener("input", () => {
-    submitBtn.disabled = textbox.value.trim() === "";
-});
-if (message.trim() === "") {
-    alert("Please enter a message");
-    return;
-}
-    
-console.log("MESSAGE:", message);
-
-const { data, error } =
-await db
-    .from("messages")
-    .insert([
-        {
-            messages: message
-        }
-    ]);
-
-    console.log(db);
     console.log(data);
     console.log(error);
 
+    textbox.value = "";
 });
