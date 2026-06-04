@@ -1,4 +1,5 @@
-console.log("NEW VERSION LOADED");
+throw new Error("TEST");
+
 
 const supabaseUrl =
 "https://ewikczkhfokqjordmjvz.supabase.co";
